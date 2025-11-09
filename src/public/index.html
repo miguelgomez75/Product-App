@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Portal de Productos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <h1>Portal de Productos</h1>
+
+    <section id="auth">
+      <h2>Login / Registro</h2>
+      <div>
+        <input id="username" placeholder="Usuario" />
+        <input id="password" placeholder="Contraseña" type="password" />
+        <select id="role">
+          <option value="user">Usuario</option>
+          <option value="admin">Administrador</option>
+        </select>
+        <button id="btnRegister">Registrar</button>
+        <button id="btnLogin">Login</button>
+      </div>
+    </section>
+
+    <section id="app" style="display:none">
+      <p>Bienvenido, <span id="me"></span> — <button id="btnLogout">Logout</button></p>
+      <a href="/chat.html">Ir al chat</a>
+
+      <h3>Productos</h3>
+      <div id="productForm" style="display:none">
+        <input id="title" placeholder="Título" />
+        <input id="price" placeholder="Precio" type="number" />
+        <input id="imageUrl" placeholder="URL imagen (opcional)"/>
+        <textarea id="description" placeholder="Descripción"></textarea>
+        <button id="createProduct">Crear producto</button>
+      </div>
+
+      <ul id="products"></ul>
+    </section>
+  </main>
+
+  <script src="/client.js"></script>
+</body>
+</html>
