@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Chat</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <h1>Chat</h1>
+    <p><a href="/">Volver</a></p>
+    <div id="chat">
+      <div id="messages" style="height:300px; overflow:auto; border:1px solid #ccc; padding:8px"></div>
+      <div id="typing" style="font-style:italic"></div>
+      <input id="msg" placeholder="Escribe..." autocomplete="off"/>
+      <button id="send">Enviar</button>
+    </div>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    (function(){
+      const token = localStorage.getItem('token');
+      if(!token){ window.location.href = '/'; return; }
+
+      const socket = io({ auth: { token } });
+
+      const messagesEl = document.getElementById('messages');
+      const typingEl = document.getElementById('typing');
+      const msgInput = document.getElementById('msg');
+      const sendBtn = document.getElementById('send');
+
+      socket.on('connect_error', (err) => {
+        messagesEl.innerHTML += `<div style="color:red">Error de conexión: ${err.message}</div>`;
+      });
+
+      socket.on('message', (m) => {
+        const el = document.createElement('div');
+        el.textContent = `${m.user}: ${m.text}`;
+        messagesEl.appendChild(el);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      });
+
+      socket.on('typing', (d) => {
+        typingEl.textContent = d.username + ' está escribiendo...';
+        setTimeout(()=> typingEl.textContent = '', 1500);
+      });
+
+      msgInput.addEventListener('input', () => {
+        socket.emit('typing', {});
+      });
+
+      sendBtn.addEventListener('click', () => {
+        const text = msgInput.value.trim();
+        if(!text) return;
+        socket.emit('message', { text });
+        msgInput.value = '';
+      });
+
+    })();
+  </script>
+</body>
+</html>
