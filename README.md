@@ -18,4 +18,4 @@ Rutas principales:
 
 Notas:
 - Socket.IO exige token JWT en `auth` durante la conexión.
-- Para persistir historial de chat, crear modelo Message y guardar en evento 'message' en server.js.
+- Para persistir historial de chat, crear modelo Message y guardar en evento 'message' en server.js. (no realizado por falta de tiempo)
